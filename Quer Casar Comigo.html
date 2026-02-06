@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quer Casar Comigo? 💍</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%;
+            overflow: hidden;
+        }
+
+        .carousel img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .carousel img.active {
+            opacity: 1;
+        }
+
+        .slide-counter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .nav-buttons {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .nav-btn {
+            background: rgba(102, 126, 234, 0.9);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(102, 126, 234, 1);
+            transform: scale(1.05);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .question-section {
+            padding: 40px;
+            text-align: center;
+            display: none;
+        }
+
+        .question-section.active {
+            display: block;
+            animation: fadeInQuestion 0.8s ease-out;
+        }
+
+        @keyframes fadeInQuestion {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .question-title {
+            font-size: 32px;
+            color: #764ba2;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .question-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .btn-sim {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-sim:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-nao {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .btn-nao:hover {
+            background: #e8e8e8;
+            border-color: #999;
+        }
+
+        .btn-nao.escape {
+            position: fixed;
+            top: 20%;
+            right: 20%;
+            z-index: 100;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .success-message.active {
+            display: block;
+            animation: fadeInQuestion 0.8s ease-out;
+        }
+
+        .success-message h1 {
+            font-size: 48px;
+            color: #764ba2;
+            margin-bottom: 20px;
+        }
+
+        .success-message p {
+            font-size: 24px;
+            color: #667eea;
+            margin-top: 20px;
+        }
+
+        .heart {
+            font-size: 60px;
+            margin: 20px 0;
+            animation: heartBeat 0.6s infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Fogos de artifício */
+        .fireworks {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            background: #FFD700;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .emoji {
+            font-size: 50px;
+            animation: float 3s ease-in infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Instruções e Progresso */
+        .letter-section {
+            padding: 40px;
+            text-align: center;
+            display: none;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        }
+
+        .letter-section.active {
+            display: block;
+            animation: fadeInQuestion 0.8s ease-out;
+        }
+
+        .letter-title {
+            font-size: 36px;
+            color: #764ba2;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .letter-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+        }
+
+        .letter-text {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.8;
+            margin: 15px 0;
+            font-style: italic;
+            text-align: justify;
+        }
+
+        .letter-author {
+            font-size: 16px;
+            color: #764ba2;
+            margin-top: 25px;
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        .instruction {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 12px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            border-bottom: 2px solid #667eea;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .progress-bar {
+            height: 3px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+        }
+
+        /* Fade transitions entre seções */
+        .fade-out {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Barra de Progresso -->
+        <div class="progress-bar" id="progressBar"></div>
+
+        <!-- Instruções -->
+        <div class="instruction" id="instruction">
+            👈 Navegue pelas fotos incríveis →
+        </div>
+
+        <!-- Seção do Carrossel -->
+        <div id="carouselSection">
+            <div class="carousel">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/b5a3f2dd-2a96-4733-bcc0-272758a65a17" alt="Foto 1" class="active">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/2bd48200-63a6-4a4d-8896-2e03ddd36eb3" alt="Foto 2">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/cf5e4c70-28e7-43d0-ae85-342676fcbda2" alt="Foto 3">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/e2451e62-7422-4acf-a731-06be1ab827fd" alt="Foto 4">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/f201f658-ccdc-4e04-8b42-7231960ed044" alt="Foto 5">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/9adf71fc-0f53-4ccf-970c-c891f585ef78" alt="Foto 6">
+
+                <div class="slide-counter">
+                    <span id="currentSlide">1</span> / 6
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="previousSlide()">← Anterior</button>
+                    <button class="nav-btn" onclick="nextSlide()">Próxima →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção da Carta sobre Amor -->
+        <div id="letterSection" class="letter-section">
+            <h1 class="letter-title">Sobre o Amor</h1>
+            <div class="letter-content">
+                <p class="letter-text">"O amor é paciente, o amor é bondoso. Não inveja, não se vangloria, não se orgulha.</p>
+                <p class="letter-text">Não desonra os outros, não é egoísta, não se ira facilmente, não guarda rancor.</p>
+                <p class="letter-text">O amor não se alegra com o mal, mas se alegra com a verdade.</p>
+                <p class="letter-text">Tudo sofre, tudo crê, tudo espera, tudo persevera.</p>
+                <p class="letter-text">O amor nunca falha..."</p>
+                <p class="letter-author">— 1 Coríntios 13</p>
+            </div>
+        </div>
+
+        <!-- Seção da Pergunta -->
+        <div id="questionSection" class="question-section">
+            <h1 class="question-title">Quer Casar Comigo? 💍</h1>
+            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/8b6ed813-9b12-4da1-907c-dfd3e2b69c64" alt="Pergunta" class="question-image">
+            <div class="buttons-container">
+                <button class="btn btn-sim" onclick="respondSim()">SIM! 💕</button>
+                <button class="btn btn-nao" id="btnNao" onclick="respondNao()">Não</button>
+            </div>
+        </div>
+
+        <!-- Mensagem de Sucesso -->
+        <div id="successMessage" class="success-message">
+            <h1>SIM!!! 🎉</h1>
+            <div class="heart">💍</div>
+            <p>Você tornou o dia mais feliz do mundo!</p>
+            <p style="font-size: 80px; margin-top: 40px;">👰 💑 🤵</p>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlideIndex = 1;
+        const totalSlides = 6;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.carousel img');
+            if (n > slides.length) currentSlideIndex = 1;
+            if (n < 1) currentSlideIndex = slides.length;
+
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlideIndex - 1].classList.add('active');
+
+            document.getElementById('currentSlide').textContent = currentSlideIndex;
+            updateProgress();
+
+            // Verifica se chegou na última foto
+            if (currentSlideIndex === totalSlides) {
+                updateInstruction('✨ Última foto! Clique em "Fazer Pergunta" para continuar →');
+            } else {
+                updateInstruction(`👈 Foto ${currentSlideIndex} de ${totalSlides} - Navegue pelas fotos incríveis →`);
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentSlideIndex / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function updateInstruction(text) {
+            const instruction = document.getElementById('instruction');
+            instruction.style.animation = 'none';
+            setTimeout(() => {
+                instruction.textContent = text;
+                instruction.style.animation = 'slideDown 0.5s ease-out';
+            }, 10);
+        }
+
+        function nextSlide() {
+            currentSlideIndex++;
+            showSlide(currentSlideIndex);
+        }
+
+        function previousSlide() {
+            currentSlideIndex--;
+            showSlide(currentSlideIndex);
+        }
+
+        function transitionTo(fromElement, toElement) {
+            fromElement.classList.add('fade-out');
+            setTimeout(() => {
+                fromElement.style.display = 'none';
+                fromElement.classList.remove('fade-out');
+                toElement.classList.add('fade-in');
+                toElement.classList.add('active');
+            }, 500);
+        }
+
+        function goToLetter() {
+            const carousel = document.getElementById('carouselSection');
+            const letter = document.getElementById('letterSection');
+            
+            carousel.classList.add('fade-out');
+            setTimeout(() => {
+                carousel.style.display = 'none';
+                letter.style.display = 'block';
+                letter.classList.add('fade-in');
+                letter.classList.add('active');
+            }, 500);
+        }
+
+        function goToQuestion() {
+            const letter = document.getElementById('letterSection');
+            const question = document.getElementById('questionSection');
+            
+            letter.classList.add('fade-out');
+            setTimeout(() => {
+                letter.style.display = 'none';
+                question.style.display = 'block';
+                question.classList.add('fade-in');
+                question.classList.add('active');
+            }, 500);
+        }
+
+        function goToCarousel() {
+            const carousel = document.getElementById('carouselSection');
+            const letter = document.getElementById('letterSection');
+            const question = document.getElementById('questionSection');
+            const success = document.getElementById('successMessage');
+            
+            carousel.style.display = 'block';
+            letter.classList.remove('active');
+            question.classList.remove('active');
+            success.classList.remove('active');
+        }
+
+        function respondSim() {
+            const question = document.getElementById('questionSection');
+            const success = document.getElementById('successMessage');
+            
+            question.classList.add('fade-out');
+            setTimeout(() => {
+                question.style.display = 'none';
+                success.style.display = 'block';
+                success.classList.add('fade-in');
+                success.classList.add('active');
+                createFireworks();
+            }, 500);
+        }
+
+        function respondNao() {
+            const btn = document.getElementById('btnNao');
+            const randomX = Math.random() * (window.innerWidth - 150);
+            const randomY = Math.random() * (window.innerHeight - 50);
+
+            btn.style.position = 'fixed';
+            btn.style.top = randomY + 'px';
+            btn.style.left = randomX + 'px';
+            btn.style.zIndex = '1000';
+        }
+
+        function createFireworks() {
+            const emojis = ['🎉','I LOVE U', '✨', '💕', '💍', '🎊', '⭐', '🌟', '💝', '🥳', '🎈'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const emoji = document.createElement('div');
+                    emoji.className = 'emoji';
+                    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    emoji.style.left = Math.random() * 100 + '%';
+                    emoji.style.top = window.innerHeight + 'px';
+                    emoji.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    
+                    document.body.appendChild(emoji);
+                    
+                    setTimeout(() => emoji.remove(), 3000);
+                }, i * 100);
+            }
+        }
+
+        // Inicializar
+        showSlide(currentSlideIndex);
+
+        // Auto-avançar para carta após última foto
+        function nextSlide() {
+            currentSlideIndex++;
+            if (currentSlideIndex > totalSlides) {
+                currentSlideIndex = totalSlides;
+                goToLetter();
+                return;
+            }
+            showSlide(currentSlideIndex);
+        }
+
+        // Ajustar função showSlide para não chamar updateProgress/updateInstruction
+        function updateProgress() {
+            const progress = (currentSlideIndex / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Auto-avançar para pergunta após 8 segundos na carta
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                const letter = document.getElementById('letterSection');
+                if (letter && letter.classList.contains('active')) {
+                    goToQuestion();
+                }
+            }, 8000);
+        });
+    </script>
+</body>
+</html>
