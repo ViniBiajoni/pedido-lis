@@ -1,7 +1,10 @@
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quer Casar Comigo? 💍</title>
-<style>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quer Casar Comigo? 💍</title>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -224,33 +227,115 @@
             50% { transform: scale(1.2); }
         }
 
-        /* Fogos de artifício */
-        .fireworks {
+        /* FIREWORKS MOBILE-OPTIMIZED */
+        .fireworks-container {
             position: fixed;
-            width: 5px;
-            height: 5px;
-            background: #FFD700;
-            border-radius: 50%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .firework {
+            position: fixed;
+            font-size: clamp(16px, 4vw, 32px);
+            animation: fireworkFloat var(--duration) ease-out forwards;
             pointer-events: none;
         }
 
-        .emoji {
-            font-size: 50px;
-            animation: float 3s ease-in infinite;
-        }
-
-        @keyframes float {
+        @keyframes fireworkFloat {
             0% {
-                transform: translateY(0px) rotate(0deg);
                 opacity: 1;
+                transform: translateY(0) translateX(0) scale(1) rotate(0deg);
             }
             100% {
-                transform: translateY(-100vh) rotate(360deg);
                 opacity: 0;
+                transform: translateY(calc(-100vh - 50px)) translateX(var(--tx)) scale(0.5) rotate(360deg);
             }
         }
 
-        /* Instruções e Progresso */
+        /* CONTROLE DE MÚSICA */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+            background: rgba(102, 126, 234, 0.9);
+            padding: 12px 16px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            animation: slideInControl 0.5s ease-out;
+        }
+
+        @keyframes slideInControl {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .music-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.15);
+        }
+
+        .music-btn:active {
+            transform: scale(0.9);
+        }
+
+        .volume-slider {
+            appearance: none;
+            width: 80px;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* LETTER SECTION */
         .letter-section {
             padding: clamp(20px, 5vw, 40px);
             text-align: center;
@@ -358,7 +443,6 @@
             }
         }
 
-        /* Fade transitions entre seções */
         .fade-out {
             animation: fadeOut 0.5s ease-out forwards;
         }
@@ -384,14 +468,34 @@
                 opacity: 1;
             }
         }
+
+        /* RESPONSIVO PARA MOBILE */
+        @media (max-width: 480px) {
+            .music-control {
+                bottom: 15px;
+                right: 15px;
+                padding: 10px 12px;
+                gap: 8px;
+            }
+
+            .music-btn {
+                font-size: 18px;
+                width: 28px;
+                height: 28px;
+            }
+
+            .volume-slider {
+                width: 60px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- CONTAINER PRINCIPAL -->
     <div class="container">
-        <!-- Barra de Progresso -->
         <div class="progress-bar" id="progressBar"></div>
 
-        <!-- Seção do Carrossel -->
+        <!-- SEÇÃO CARROSSEL -->
         <div id="carouselSection">
             <div class="carousel">
                 <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/aa9b5138-0607-4d22-9d79-9b164ed1aa80" alt="Foto 1" class="active">
@@ -416,9 +520,9 @@
             </div>
         </div>
 
-        <!-- Seção da Carta sobre Amor -->
+        <!-- SEÇÃO CARTA -->
         <div id="letterSection" class="letter-section">
-            <h1 class="letter-title">Sobre o Amor</h1>
+            <h1 class="letter-title">Agora quero aprender AINDA MAIS Sobre o AMOR...que vem de Deus</h1>
             <div class="letter-content">
                 <p class="letter-text">"O amor é paciente, o amor é bondoso. Não inveja, não se vangloria, não se orgulha.</p>
                 <p class="letter-text">Não desonra os outros, não é egoísta, não se ira facilmente, não guarda rancor.</p>
@@ -428,11 +532,11 @@
                 <p class="letter-author">— 1 Coríntios 13</p>
             </div>
             <div class="letter-buttons">
-                <button class="letter-btn letter-btn-skip" onclick="goToQuestion()">Continuar para Pergunta 💍</button>
+                <button class="letter-btn letter-btn-skip" onclick="goToQuestion()">💍????</button>
             </div>
         </div>
 
-        <!-- Seção da Pergunta -->
+        <!-- SEÇÃO PERGUNTA -->
         <div id="questionSection" class="question-section">
             <h1 class="question-title">Quer Casar Comigo? 💍</h1>
             <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/8b6ed813-9b12-4da1-907c-dfd3e2b69c64" alt="Pergunta" class="question-image">
@@ -442,19 +546,32 @@
             </div>
         </div>
 
-        <!-- Mensagem de Sucesso -->
+        <!-- MENSAGEM DE SUCESSO -->
         <div id="successMessage" class="success-message">
             <h1>SIM!!! 🎉</h1>
             <div class="heart">💍</div>
-            <p>Você tornou o dia mais feliz do mundo!</p>
-            <p style="font-size: 80px; margin-top: 40px;">👰 💑 🤵</p>
+            <p style="font-size: clamp(40px, 15vw, 80px); margin-top: 40px;">👰 + 🤵</p>
         </div>
-
     </div>
+
+    <!-- CONTROLE DE MÚSICA -->
+    <div class="music-control">
+        <button class="music-btn" id="playPauseBtn" onclick="togglePlayPause()" title="Play/Pause">🎵</button>
+        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50" onchange="changeVolume()" title="Volume">
+    </div>
+
+    <!-- ÁUDIO - HOW DEEP IS YOUR LOVE (BEE GEES) -->
+    <audio id="bgMusic" loop>
+        <source src="musica_fundo.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         let currentSlideIndex = 1;
         const totalSlides = 8;
+        let isMusicPlaying = false;
+        const bgMusic = document.getElementById('bgMusic');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
 
         const slideCaptions = [
             "📸 Tudo começou com um sorriso...",
@@ -463,9 +580,11 @@
             "👯 Uma amizade que floresceu em amor",
             "❤️ Amor verdadeiro e companheirismo",
             "💪 Crescemos juntos, nos tornamos mais fortes",
-            "🌟 Amadurecemos, nos completamos,..",
-            "Brincamos, remos e agora, quero passar o resto da vida ao seu lado 💍!"
+            "🌟 Amadurecemos, nos completamos...",
+            "Brincamos, rimos e agora, quero passar o resto da vida ao seu lado 💍!"
         ];
+
+        const emojis = ['🎉', '💕', '✨', '💝', '💍', '🎊', '⭐', '🌟', '🥳', '🎈', '❤️', '💐', '💑', '👰', '🤵'];
 
         function showSlide(n) {
             const slides = document.querySelectorAll('.carousel img');
@@ -477,13 +596,11 @@
 
             document.getElementById('currentSlide').textContent = currentSlideIndex;
             
-            // Atualizar legenda
             const caption = document.getElementById('slideCaption');
             caption.textContent = slideCaptions[currentSlideIndex - 1];
             
             updateProgress();
 
-            // Auto-avançar para carta após atingir última foto
             if (currentSlideIndex === totalSlides) {
                 setTimeout(() => {
                     goToLetter();
@@ -496,33 +613,19 @@
             document.getElementById('progressBar').style.width = progress + '%';
         }
 
-        function updateInstruction(text) {
-            const instruction = document.getElementById('instruction');
-            instruction.style.animation = 'none';
-            setTimeout(() => {
-                instruction.textContent = text;
-                instruction.style.animation = 'slideDown 0.5s ease-out';
-            }, 10);
-        }
-
         function nextSlide() {
             currentSlideIndex++;
+            if (currentSlideIndex > totalSlides) {
+                currentSlideIndex = totalSlides;
+                goToLetter();
+                return;
+            }
             showSlide(currentSlideIndex);
         }
 
         function previousSlide() {
             currentSlideIndex--;
             showSlide(currentSlideIndex);
-        }
-
-        function transitionTo(fromElement, toElement) {
-            fromElement.classList.add('fade-out');
-            setTimeout(() => {
-                fromElement.style.display = 'none';
-                fromElement.classList.remove('fade-out');
-                toElement.classList.add('fade-in');
-                toElement.classList.add('active');
-            }, 500);
         }
 
         function goToLetter() {
@@ -551,18 +654,6 @@
             }, 500);
         }
 
-        function goToCarousel() {
-            const carousel = document.getElementById('carouselSection');
-            const letter = document.getElementById('letterSection');
-            const question = document.getElementById('questionSection');
-            const success = document.getElementById('successMessage');
-            
-            carousel.style.display = 'block';
-            letter.classList.remove('active');
-            question.classList.remove('active');
-            success.classList.remove('active');
-        }
-
         function respondSim() {
             const question = document.getElementById('questionSection');
             const success = document.getElementById('successMessage');
@@ -589,51 +680,91 @@
         }
 
         function createFireworks() {
-            const emojis = ['🎉', 'I LOVE U', '✨', '💕', '💍', '🎊', '⭐', '🌟', '💝', '🥳', '🎈'];
-            
-            for (let i = 0; i < 50; i++) {
+            const container = document.createElement('div');
+            container.className = 'fireworks-container';
+            document.body.appendChild(container);
+
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const quantity = window.innerWidth < 768 ? 30 : 50;
+
+            for (let i = 0; i < quantity; i++) {
                 setTimeout(() => {
-                    const emoji = document.createElement('div');
-                    emoji.className = 'emoji';
-                    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                    emoji.style.left = Math.random() * 100 + '%';
-                    emoji.style.top = window.innerHeight + 'px';
-                    emoji.style.fontSize = (Math.random() * 30 + 20) + 'px';
-                    
-                    document.body.appendChild(emoji);
-                    
-                    setTimeout(() => emoji.remove(), 3000);
-                }, i * 100);
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+                    const startX = Math.random() * screenWidth;
+                    const startY = screenHeight / 2;
+                    const randomX = (Math.random() - 0.5) * 400;
+                    const duration = 2000 + Math.random() * 1500;
+
+                    firework.style.left = startX + 'px';
+                    firework.style.top = startY + 'px';
+                    firework.style.setProperty('--tx', randomX + 'px');
+                    firework.style.setProperty('--duration', duration + 'ms');
+
+                    container.appendChild(firework);
+
+                    setTimeout(() => {
+                        firework.remove();
+                    }, duration);
+                }, i * 50);
             }
-        }
 
-        // Inicializar
-        showSlide(currentSlideIndex);
-
-        // Auto-avançar para carta após última foto
-        function nextSlide() {
-            currentSlideIndex++;
-            if (currentSlideIndex > totalSlides) {
-                currentSlideIndex = totalSlides;
-                goToLetter();
-                return;
-            }
-            showSlide(currentSlideIndex);
-        }
-
-        // Ajustar função showSlide para não chamar updateProgress/updateInstruction
-        function updateProgress() {
-            const progress = (currentSlideIndex / totalSlides) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
-        }
-
-        // Auto-avançar para pergunta após 20 segundos na carta
-        window.addEventListener('load', function() {
             setTimeout(() => {
-                const letter = document.getElementById('letterSection');
-                if (letter && letter.classList.contains('active')) {
-                    goToQuestion();
+                if (container.children.length === 0) {
+                    container.remove();
                 }
-            }, 20000);
+            }, quantity * 50 + 3500);
+        }
+
+        function togglePlayPause() {
+            if (bgMusic.paused) {
+                bgMusic.play().catch(err => console.log('Play error:', err));
+                isMusicPlaying = true;
+            } else {
+                bgMusic.pause();
+                isMusicPlaying = false;
+            }
+            updatePlayPauseButton();
+        }
+
+        function changeVolume() {
+            bgMusic.volume = volumeSlider.value / 100;
+        }
+
+        function updatePlayPauseButton() {
+            playPauseBtn.textContent = !bgMusic.paused ? '⏸️' : '🎵';
+        }
+
+        bgMusic.addEventListener('pause', updatePlayPauseButton);
+        bgMusic.addEventListener('play', updatePlayPauseButton);
+        bgMusic.addEventListener('playing', updatePlayPauseButton);
+        bgMusic.addEventListener('ended', () => {
+            bgMusic.currentTime = 0;
+            bgMusic.play();
         });
+
+        window.addEventListener('load', () => {
+            bgMusic.volume = 0.5;
+            volumeSlider.value = 50;
+            
+            setTimeout(() => {
+                const playPromise = bgMusic.play();
+                if (playPromise) {
+                    playPromise.catch(err => {
+                        console.log('Autoplay bloqueado');
+                        document.addEventListener('click', () => {
+                            bgMusic.play();
+                            updatePlayPauseButton();
+                        }, { once: true });
+                    });
+                }
+            }, 1000);
+        });
+
+        showSlide(currentSlideIndex);
     </script>
+</body>
+</html>
