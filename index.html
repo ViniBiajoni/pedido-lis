@@ -296,6 +296,34 @@
             font-style: normal;
         }
 
+        .letter-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .letter-btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .letter-btn-skip {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .letter-btn-skip:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
         .progress-bar {
             height: 3px;
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
@@ -366,15 +394,17 @@
         <!-- Seção do Carrossel -->
         <div id="carouselSection">
             <div class="carousel">
-                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/b5a3f2dd-2a96-4733-bcc0-272758a65a17" alt="Foto 1" class="active">
-                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/2bd48200-63a6-4a4d-8896-2e03ddd36eb3" alt="Foto 2">
-                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/cf5e4c70-28e7-43d0-ae85-342676fcbda2" alt="Foto 3">
-                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/e2451e62-7422-4acf-a731-06be1ab827fd" alt="Foto 4">
-                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/f201f658-ccdc-4e04-8b42-7231960ed044" alt="Foto 5">
-                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/9adf71fc-0f53-4ccf-970c-c891f585ef78" alt="Foto 6">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/aa9b5138-0607-4d22-9d79-9b164ed1aa80" alt="Foto 1" class="active">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/7feadc19-5b49-416f-8ff0-f355f0bbc037" alt="Foto 2">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/b5a3f2dd-2a96-4733-bcc0-272758a65a17" alt="Foto 3">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/2bd48200-63a6-4a4d-8896-2e03ddd36eb3" alt="Foto 4">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/cf5e4c70-28e7-43d0-ae85-342676fcbda2" alt="Foto 5">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/e2451e62-7422-4acf-a731-06be1ab827fd" alt="Foto 6">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/f201f658-ccdc-4e04-8b42-7231960ed044" alt="Foto 7">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/9adf71fc-0f53-4ccf-970c-c891f585ef78" alt="Foto 8">
 
                 <div class="slide-counter">
-                    <span id="currentSlide">1</span> / 6
+                    <span id="currentSlide">1</span> / 7
                 </div>
 
                 <div class="slide-caption" id="slideCaption"></div>
@@ -388,7 +418,7 @@
 
         <!-- Seção da Carta sobre Amor -->
         <div id="letterSection" class="letter-section">
-            <h1 class="letter-title">Aprendemos mais sobre o AMOR de DEUS...</h1>
+            <h1 class="letter-title">Sobre o Amor</h1>
             <div class="letter-content">
                 <p class="letter-text">"O amor é paciente, o amor é bondoso. Não inveja, não se vangloria, não se orgulha.</p>
                 <p class="letter-text">Não desonra os outros, não é egoísta, não se ira facilmente, não guarda rancor.</p>
@@ -396,6 +426,9 @@
                 <p class="letter-text">Tudo sofre, tudo crê, tudo espera, tudo persevera.</p>
                 <p class="letter-text">O amor nunca falha..."</p>
                 <p class="letter-author">— 1 Coríntios 13</p>
+            </div>
+            <div class="letter-buttons">
+                <button class="letter-btn letter-btn-skip" onclick="goToQuestion()">Continuar para Pergunta 💍</button>
             </div>
         </div>
 
@@ -421,15 +454,17 @@
 
     <script>
         let currentSlideIndex = 1;
-        const totalSlides = 6;
+        const totalSlides = 8;
 
         const slideCaptions = [
-            "📸 Tudo começou com um sorriso...",
+            "📸 Tudo começou com um sorriso lindo...",
+            "😅 Ops, sorriso errado, na real foi esse aqui",
             "😊 Sorrisos que iluminam meus dias",
             "👯 Uma amizade que floresceu em amor",
             "❤️ Amor verdadeiro e companheirismo",
             "💪 Crescemos juntos, nos tornamos mais fortes",
-            "🌟 Amadurecemos, nos completamos"
+            "🌟 Amadurecemos, nos completamos, nos motivamos",
+            "🌟 Brincamos, rimos e nos divertimos juntos!"
         ];
 
         function showSlide(n) {
